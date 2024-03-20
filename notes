@@ -1,0 +1,2 @@
+Don't forget to compile with: `sdl2-config --cflags`
+Don't forget to link with: `sdl2-config --libs` -lSDL2_ttf
