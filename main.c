@@ -3,22 +3,30 @@
 int main(void)
 {
 	SDL_Instance instance;
+	int duration_ms = 5000;
+	Uint32 start_time = SDL_GetTicks();
 
 	if (init_instance(&instance) != 0)
 	{
-		return 1; // Error initializing SDL
+		return (1); // Error initializing SDL
 	}
 
-	SDL_SetRenderDrawColor(instance.renderer, 255, 255, 255, 255); // Set draw color to white
+	while (1)
+	{
+		SDL_SetRenderDrawColor(instance.renderer, 255, 255, 255, 255); //Set  draw color to white 
+		SDL_RenderClear(instance.renderer);
+		draw_line(instance);
+		SDL_RenderPresent(instance.renderer);
 
-	// Draw a line from (100, 100) to (200, 200)
-	draw_line(instance.renderer, 100, 100, 200, 200);
+		if (SDL_GetTicks() - start_time >= (Uint32)duration_ms)
+		{
+			break;
+		}
+	}
 
-	SDL_RenderPresent(instance.renderer); // Update the window
-
-	SDL_Delay(3000); // Pause for 3 seconds
-
-	SDL_DestroyRenderer(instance.renderer); // Clean up
+	SDL_DestroyRenderer(instance.renderer);
 	SDL_DestroyWindow(instance.window);
 	SDL_Quit();
+
+	return (0);
 }

@@ -30,9 +30,11 @@ int init_instance(SDL_Instance *instance)
 		return (1);
 	}
 
+	return (0);
 }
 
-void draw_line(SDL_Renderer *renderer, int x1, int y1, int x2, int y2)
+void draw_line(SDL_Instance instance)
 {
-    SDL_RenderDrawLine(renderer, x1, y1, x2, y2);
+    SDL_SetRenderDrawColor(instance.renderer, 0, 0, 0, 255);
+    SDL_RenderDrawLine(instance.renderer, 10, 10, 100, 100);
 }

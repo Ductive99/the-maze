@@ -10,6 +10,6 @@ typedef struct SDL_Instance
 } SDL_Instance;
 
 int init_instance(SDL_Instance *);
-void draw_line(SDL_Renderer *renderer, int x1, int y1, int x2, int y2);
+void draw_line(SDL_Instance instance);
 
 #endif /* _DEMO_H_ */
