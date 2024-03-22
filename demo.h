@@ -2,7 +2,14 @@
 #define _DEMO_H_
 
 #include <SDL2/SDL.h>
+#include <stdio.h>
 
+/**
+ * struct SDL_Instance - window and renderer
+ *
+ * @window: the window
+ * @renderer: the renderer
+*/
 typedef struct SDL_Instance
 {
 	SDL_Window *window;

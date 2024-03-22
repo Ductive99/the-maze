@@ -1,5 +1,12 @@
 #include "demo.h"
 
+/**
+ * init_instance - initializes an SDL instance
+ *
+ * @instance: an SDL instance
+ *
+ * Return: 0 if ran successfully, else return 1
+*/
 int init_instance(SDL_Instance *instance)
 {
 	/* Initialize SDL*/
@@ -33,8 +40,13 @@ int init_instance(SDL_Instance *instance)
 	return (0);
 }
 
+/**
+ * draw_line - draws a line in the SDL window
+ *
+ * @instance: the SDL instance
+*/
 void draw_line(SDL_Instance instance)
 {
-    SDL_SetRenderDrawColor(instance.renderer, 0, 0, 0, 255);
-    SDL_RenderDrawLine(instance.renderer, 10, 10, 100, 100);
+	SDL_SetRenderDrawColor(instance.renderer, 0, 0, 0, 255);
+	SDL_RenderDrawLine(instance.renderer, 10, 10, 100, 100);
 }
