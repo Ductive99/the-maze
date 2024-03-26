@@ -33,7 +33,7 @@ typedef struct game_object {
     float vel_y;
 } game_object;
 
-int init_instance(SDL_Instance *instance)
+int init_instance(SDL_Instance *instance);
 void setup(game_object *ball);
 void process(int *game_state);
 void update(game_object *ball, int *last_frame_time);
