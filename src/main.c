@@ -1,35 +1,30 @@
 #include "maze.h"
 
+/* Global Variables */
+SDL_Instance instance = {NULL, NULL};
+game_object ball;
+int last_frame_time = 0;
+int game_state = false;
+
+/**
+ * main - Entry Point
+ *
+ * Return: 0 always
+*/
 int main(void)
 {
-	SDL_Instance instance;
-	instance.window = NULL;
-	SDL_Surface *windowSurface = NULL;
-	SDL_Surface *imageSurface = NULL;
+	game_state = init_instance(&instance);
 
-	if (init(&instance) != 0)
-		return (1);
+	setup(&ball);
 
-	windowSurface = SDL_GetWindowSurface(instance.window);
-	imageSurface = SDL_LoadBMP("ductive.bmp");
-
-	if (imageSurface == NULL)
+	while (game_state)
 	{
-		fprintf(stderr, "Unable to Load Image: %s\n", SDL_GetError());
-		return (1);
+		process(&game_state);
+		update(&ball, &last_frame_time);
+		render(&instance, &ball);
 	}
-	
-	SDL_BlitSurface(imageSurface, NULL, windowSurface, NULL);
-	SDL_UpdateWindowSurface(instance.window);
-	SDL_Delay(3000);
 
-
-	SDL_FreeSurface(imageSurface);
-	SDL_DestroyWindow(instance.window);
-	imageSurface = NULL;
-	windowSurface = NULL;
-	instance.window = NULL;
-	SDL_Quit();
+	destroy(&instance);
 
 	return (0);
 }
