@@ -11,8 +11,8 @@ void setup(game_object *ball)
 	ball->y = 20;
 	ball->width = 20;
 	ball->height = 20;
-	ball->vel_x = 180;
-	ball->vel_y = 140;
+	ball->vel_x = 0;
+	ball->vel_y = 0;
 }
 
 /**
@@ -20,23 +20,52 @@ void setup(game_object *ball)
  *
  * @game_state: variable to end the loop.
 */
-void process(int *game_state)
+void process(int *game_state, game_object *ball)
 {
 	SDL_Event event;
 
-	while (SDL_PollEvent(&event))
-	{
-		switch (event.type)
-		{
-			case SDL_QUIT:
-				*game_state = false;
-				break;
-			case SDL_KEYDOWN:
-				if (event.key.keysym.sym == SDLK_ESCAPE)
-					*game_state = false;
-				break;
-		}
-	}
+    while (SDL_PollEvent(&event))
+    {
+        switch (event.type)
+        {
+            case SDL_QUIT:
+                *game_state = false;
+                break;
+            case SDL_KEYDOWN:
+                switch (event.key.keysym.sym)
+                {
+                    case SDLK_ESCAPE:
+                        *game_state = false;
+                        break;
+                    case SDLK_UP:
+                        ball->vel_y = -140; // Adjust the velocity as needed
+                        break;
+                    case SDLK_DOWN:
+                        ball->vel_y = 140; // Adjust the velocity as needed
+                        break;
+                    case SDLK_LEFT:
+                        ball->vel_x = -180; // Adjust the velocity as needed
+                        break;
+                    case SDLK_RIGHT:
+                        ball->vel_x = 180; // Adjust the velocity as needed
+                        break;
+                }
+                break;
+            case SDL_KEYUP:
+                switch (event.key.keysym.sym)
+                {
+                    case SDLK_UP:
+                    case SDLK_DOWN:
+                        ball->vel_y = 0; // Stop vertical movement
+                        break;
+                    case SDLK_LEFT:
+                    case SDLK_RIGHT:
+                        ball->vel_x = 0; // Stop horizontal movement
+                        break;
+                }
+                break;
+        }
+    }
 }
 
 /**

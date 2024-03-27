@@ -19,7 +19,7 @@ int main(void)
 
 	while (game_state)
 	{
-		process(&game_state);
+		process(&game_state, &ball);
 		update(&ball, &last_frame_time);
 		render(&instance, &ball);
 	}
