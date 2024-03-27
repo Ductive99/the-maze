@@ -35,7 +35,7 @@ typedef struct game_object {
 
 int init_instance(SDL_Instance *instance);
 void setup(game_object *ball);
-void process(int *game_state);
+void process(int *game_state, game_object *ball);
 void update(game_object *ball, int *last_frame_time);
 void render(SDL_Instance *instance, game_object *ball);
 void destroy(SDL_Instance *instance);
