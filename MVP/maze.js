@@ -1,4 +1,4 @@
-const TILE_SIZE = 48;
+const TILE_SIZE = 64;
 const ROWS = 11;
 const COLS = 15;
 
@@ -20,6 +20,14 @@ class Map {
             [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
         ];
+    }
+    isBlocked(x, y) {
+        if (x < 0 || x > WINDOW_WIDTH || y < 0 || y > WINDOW_HEIGHT) {
+            return true;
+        }
+        var indexX = Math.floor(x / TILE_SIZE);
+        var indexY = Math.floor(y / TILE_SIZE);
+        return this.grid[indexY][indexX] != 0;
     }
     render() {
         for (var i = 0; i < ROWS; i++) {
@@ -51,8 +59,14 @@ class Player {
 
         var moveStep = this.walkDirection * this.moveSpeed;
 
-        this.x = this.x + Math.cos(this.rotationAngle) * moveStep;
-        this.y = this.y + Math.sin(this.rotationAngle) * moveStep;
+        /* Player's next projected position*/
+        var projX = this.x + Math.cos(this.rotationAngle) * moveStep;
+        var projY = this.y + Math.sin(this.rotationAngle) * moveStep;
+
+        if (!grid.isBlocked(projX, projY)) {
+            this.x = projX;
+            this.y = projY;
+        }
     }
     render() {
         noStroke();
