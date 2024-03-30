@@ -7,7 +7,7 @@ const WINDOW_HEIGHT = ROWS * TILE_SIZE;
 
 const FOV_ANGLE = 60 * (Math.PI / 180);
 
-const WALL_THICKNESS = 30;
+const WALL_THICKNESS = 3;
 const NUM_RAYS = WINDOW_WIDTH / WALL_THICKNESS;
 
 class Map {
@@ -126,11 +126,8 @@ class Ray {
         var nextHtouchX = xintercept;
         var nextHtouchY = yintercept;
 
-        if (this.isRayFacingUp)
-            nextHtouchY--;
-
         while (nextHtouchX >= 0 && nextHtouchX <= WINDOW_WIDTH && nextHtouchY >= 0 && nextHtouchY <= WINDOW_HEIGHT) {
-            if (grid.isBlocked(nextHtouchX, nextHtouchY)) {
+            if (grid.isBlocked(nextHtouchX, nextHtouchY - (this.isRayFacingUp ? 1 : 0))) {
                 horzWallIsHit = true;
                 horzWallHitX = nextHtouchX;
                 horzWallHitY = nextHtouchY;
@@ -165,11 +162,8 @@ class Ray {
         var nextVtouchX = xintercept;
         var nextVtouchY = yintercept;
 
-        if (this.isRayFacingLeft)
-            nextVtouchX--;
-
         while (nextVtouchX >= 0 && nextVtouchX <= WINDOW_WIDTH && nextVtouchY >= 0 && nextVtouchY <= WINDOW_HEIGHT) {
-            if (grid.isBlocked(nextVtouchX, nextVtouchY)) {
+            if (grid.isBlocked(nextVtouchX - (this.isRayFacingLeft ? 1 : 0), nextVtouchY)) {
                 vertWallIsHit = true;
                 vertWallHitX = nextVtouchX;
                 vertWallHitY = nextVtouchY;
