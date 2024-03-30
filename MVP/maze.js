@@ -135,7 +135,8 @@ class Ray {
                 wallHitY = nextIntrcptY;
 
                 stroke("red");
-                line(player.x, player.y, wallHitX, wallHitY);
+                line(player.x, player.y, wallHitX, wallHitY);        // Calculate the increment xstep and ystep
+
 
                 break;
             } else {
