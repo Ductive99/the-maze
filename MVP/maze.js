@@ -229,6 +229,24 @@ function keyReleased() {
     }
 }
 
+function render3D() {
+    for (var i = 0; i < NUM_RAYS; i++) {
+        var ray = rays[i];
+        var wallDistance = ray.distance * Math.cos(ray.rayAngle - player.rotationAngle);
+        var projPlaneDistance = (WINDOW_WIDTH / 2) / Math.tan(FOV_ANGLE / 2);
+        var wallHeight = (TILE_SIZE / wallDistance) * projPlaneDistance;
+
+        fill("rgba(255, 255, 255, 1.0");
+        noStroke();
+        rect(
+            i * WALL_THICKNESS,
+            (WINDOW_HEIGHT / 2) - (wallHeight / 2),
+            WALL_THICKNESS,
+            wallHeight
+        );
+    }
+}
+
 function castRays() {
     var columnId = 0;
     var rayAngle = player.rotationAngle - (FOV_ANGLE / 2);
@@ -268,6 +286,8 @@ function update() {
 function draw() {
     clear("#212121");
     update();
+
+    render3D();
 
     grid.render();
     for (ray of rays) {
