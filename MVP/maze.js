@@ -10,6 +10,8 @@ const FOV_ANGLE = 60 * (Math.PI / 180);
 const WALL_THICKNESS = 3;
 const NUM_RAYS = WINDOW_WIDTH / WALL_THICKNESS;
 
+const MINIMAP_FACTOR = 0.2;
+
 class Map {
     constructor() {
         this.grid = [
@@ -42,7 +44,12 @@ class Map {
                 var tileColor = this.grid[i][j] == 1 ? "#222" : "#fff";
                 stroke("#222");
                 fill(tileColor);
-                rect(tileX, tileY, TILE_SIZE, TILE_SIZE);
+                rect(
+                    MINIMAP_FACTOR * tileX,
+                    MINIMAP_FACTOR * tileY,
+                    MINIMAP_FACTOR * TILE_SIZE,
+                    MINIMAP_FACTOR * TILE_SIZE
+                );
             }
         }
     }
@@ -76,16 +83,18 @@ class Player {
     render() {
         noStroke();
         fill("red");
-        circle(this.x, this.y, this.radius);
-        /*
-        stroke("red");
+        circle(
+            MINIMAP_FACTOR * this.x,
+            MINIMAP_FACTOR * this.y,
+            MINIMAP_FACTOR * this.radius);
+
+        stroke("blue");
         line(
-            this.x,
-            this.y,
-            this.x + Math.cos(this.rotationAngle) * 30,
-            this.y + Math.sin(this.rotationAngle) * 30
+            MINIMAP_FACTOR * this.x,
+            MINIMAP_FACTOR * this.y,
+            MINIMAP_FACTOR * this.x + Math.cos(this.rotationAngle) * 30,
+            MINIMAP_FACTOR * this.y + Math.sin(this.rotationAngle) * 30
         );
-        */
     }
 }
 
@@ -95,6 +104,7 @@ class Ray {
         this.wallHitX = 0;
         this.wallHitY = 0;
         this.distance = 0;
+        this.wasHitVertical = false;
 
         this.isRayFacingDown = this.rayAngle > 0 && this.rayAngle < Math.PI;
         this.isRayFacingUp = !this.isRayFacingDown;
@@ -131,11 +141,6 @@ class Ray {
                 horzWallIsHit = true;
                 horzWallHitX = nextHtouchX;
                 horzWallHitY = nextHtouchY;
-
-                stroke("red");
-                line(player.x, player.y, horzWallHitX, horzWallHitY);
-
-
                 break;
             } else {
                 nextHtouchX += xstep;
@@ -186,12 +191,12 @@ class Ray {
         this.wasHitVertical = (vHitDistance < hHitDistance);
     }
     render() {
-        stroke("rgba(255, 0, 0, 0.4)");
+        stroke("rgba(255, 0, 0, 1)");
         line(
-            player.x,
-            player.y,
-            this.wallHitX,
-            this.wallHitY
+            MINIMAP_FACTOR * player.x,
+            MINIMAP_FACTOR * player.y,
+            MINIMAP_FACTOR * this.wallHitX,
+            MINIMAP_FACTOR * this.wallHitY
         );
     }
 }
@@ -261,6 +266,7 @@ function update() {
 }
 
 function draw() {
+    clear("#212121");
     update();
 
     grid.render();
