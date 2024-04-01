@@ -1,7 +1,7 @@
 html, body {
     margin: 0;
     padding: 0;
-    background: #555;
+    background: #536e9c;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -17,12 +17,26 @@ canvas {
     border-color: #fff;
 }
 
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
 h1 {
-    font-size: 36px;
-    margin-bottom: 20px;
+    font-size: 48px;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    animation: glow 2s infinite alternate;
     font-family: Montserrat, sans-serif;
+    margin-bottom: 20px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
+}
+
+@keyframes glow {
+    0% {
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    100% {
+        text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.8);
+    }
 }
