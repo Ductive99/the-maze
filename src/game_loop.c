@@ -1,141 +1,106 @@
 #include "maze.h"
 
 /**
- * setup - initializes an object to move at a certain speed.
+ * setup - initializes a player's position and speed.
  *
- * @ball: pointer to the game object.
+ * @player: pointer to the player struct.
 */
-void setup(game_object *ball)
+void setup(Player *player)
 {
-	ball->x = 10;
-	ball->y = 20;
-	ball->width = 20;
-	ball->height = 20;
-	ball->vel_x = 0;
-	ball->vel_y = 0;
+	player->x = WINDOW_WIDTH / 2;
+	player->y = WINDOW_HEIGHT / 2;
+	player->w = 5;
+	player->h = 5;
+	player->turnDirection = 0;
+	player->walkDirection = 0;
+	player->rotAngle = PI / 2;
+	player->walkSpeed = 200;
+	player->rotSpeed = 75 * PI / 180;
 }
 
 /**
- * process - process user's input to quit.
+ * process - processes user's input.
  *
  * @game_state: variable to end the loop.
+ * @player: player instance.
 */
-void process(int *game_state, game_object *ball)
+void process(Player *player, int *game_state)
 {
 	SDL_Event event;
 
-    while (SDL_PollEvent(&event))
-    {
-        switch (event.type)
-        {
-            case SDL_QUIT:
-                *game_state = false;
-                break;
-            case SDL_KEYDOWN:
-                switch (event.key.keysym.sym)
-                {
-                    case SDLK_ESCAPE:
-                        *game_state = false;
-                        break;
-                    case SDLK_UP:
-                        ball->vel_y = -140; // Adjust the velocity as needed
-                        break;
-                    case SDLK_DOWN:
-                        ball->vel_y = 140; // Adjust the velocity as needed
-                        break;
-                    case SDLK_LEFT:
-                        ball->vel_x = -180; // Adjust the velocity as needed
-                        break;
-                    case SDLK_RIGHT:
-                        ball->vel_x = 180; // Adjust the velocity as needed
-                        break;
-                }
-                break;
-            case SDL_KEYUP:
-                switch (event.key.keysym.sym)
-                {
-                    case SDLK_UP:
-                    case SDLK_DOWN:
-                        ball->vel_y = 0; // Stop vertical movement
-                        break;
-                    case SDLK_LEFT:
-                    case SDLK_RIGHT:
-                        ball->vel_x = 0; // Stop horizontal movement
-                        break;
-                }
-                break;
-        }
-    }
+	while (SDL_PollEvent(&event))
+	{
+		SDL_KeyCode KEY = event.key.keysym.sym;
+
+		switch (event.type)
+		{
+			case SDL_QUIT:
+				*game_state = false;
+				break;
+			case SDL_KEYDOWN:
+			{
+				switch (KEY)
+				{
+					case SDLK_ESCAPE:
+						*game_state = false;
+						break;
+					case SDLK_UP:
+					case SDLK_DOWN:
+						player->walkDirection = (KEY == SDLK_UP) ? 1 : -1;
+						break;
+					case SDLK_RIGHT:
+					case SDLK_LEFT:
+						player->turnDirection = (KEY == SDLK_RIGHT) ? 1 : -1;
+						break;
+					default:
+						break;
+				}
+				break;
+			}
+			case SDL_KEYUP:
+			{
+				if (KEY == SDLK_UP || KEY == SDLK_DOWN)
+					player->walkDirection = 0;
+				else if (KEY == SDLK_RIGHT || KEY == SDLK_LEFT)
+					player->turnDirection = 0;
+				break;
+			}
+		}
+	}
 }
 
 /**
  * update - handles updating the frames and wall collisions.
  *
- * @ball: pointer to the game object.
+ * @player: pointer to the player struct.
  * @last_frame_time: time since the last frame.
 */
-void update(game_object *ball, int *last_frame_time)
+void update(Player *player, int *last_frame_time)
 {
-	float delta_time = (SDL_GetTicks() - *last_frame_time) / 1000.0;
+	int wait_time = FRAME_TIME - (SDL_GetTicks() - *last_frame_time);
+
+	if (wait_time > 0  && wait_time <= FRAME_TIME)
+		SDL_Delay(wait_time);
+
+	float delta_time = (SDL_GetTicks() - *last_frame_time) / 1000.0f;
 
 	*last_frame_time = SDL_GetTicks();
 
-	ball->x += ball->vel_x * delta_time;
-	ball->y += ball->vel_y * delta_time;
-
-	if (ball->x < 0)
-	{
-		ball->x = 0;
-		ball->vel_x = -ball->vel_x;
-	}
-	if (ball->x + ball->height > WINDOW_WIDTH)
-	{
-		ball->x = WINDOW_WIDTH - ball->width;
-		ball->vel_x = -ball->vel_x;
-	}
-	if (ball->y < 0)
-	{
-		ball->y = 0;
-		ball->vel_y = -ball->vel_y;
-	}
-	if (ball->y + ball->height > WINDOW_HEIGHT)
-	{
-		ball->y = WINDOW_HEIGHT - ball->height;
-		ball->vel_y = -ball->vel_y;
-	}
+	movePlayer(player, delta_time);
 }
 
 /**
- * render - renders the frame.
+ * movePlayer - controls the player's movement.
  *
- * @instance: pointer to the window and renderer.
- * @ball: pointer to the game object.
+ * @player: pointer to the player struct.
+ * @Dt: delta time: time since last render.
 */
-void render(SDL_Instance *instance, game_object *ball)
+void movePlayer(Player *player, float Dt)
 {
-	SDL_SetRenderDrawColor(instance->renderer, 0, 0, 0, 255);
-	SDL_RenderClear(instance->renderer);
+	float step = player->walkDirection * player->walkSpeed * Dt;
 
-	SDL_Rect ball_rect = {
-		(int)ball->x,
-		(int)ball->y,
-		(int)ball->width,
-		(int)ball->height
-	};
-	SDL_SetRenderDrawColor(instance->renderer, 255, 255, 255, 255);
-	SDL_RenderFillRect(instance->renderer, &ball_rect);
+	player->rotAngle += player->turnDirection * player->rotSpeed * Dt;
 
-	SDL_RenderPresent(instance->renderer);
-}
-
-/**
- * destroy - destroys renderer and window instances.
- *
- * @instance: pointer to the window and renderer.
-*/
-void destroy(SDL_Instance *instance)
-{
-	SDL_DestroyRenderer(instance->renderer);
-	SDL_DestroyWindow(instance->window);
-	SDL_Quit();
+	player->x += cos(player->rotAngle) * step;
+	player->y += sin(player->rotAngle) * step;
 }
