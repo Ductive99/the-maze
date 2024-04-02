@@ -101,6 +101,11 @@ void movePlayer(Player *player, float Dt)
 
 	player->rotAngle += player->turnDirection * player->rotSpeed * Dt;
 
-	player->x += cos(player->rotAngle) * step;
-	player->y += sin(player->rotAngle) * step;
+	float projX = player->x + cos(player->rotAngle) * step;
+	float projY = player->y + sin(player->rotAngle) * step;
+	if (!isBlocked(projX, projY))
+	{
+		player->x += cos(player->rotAngle) * step;
+		player->y += sin(player->rotAngle) * step;
+	}
 }
