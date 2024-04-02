@@ -1,5 +1,21 @@
 #include "maze.h"
 
+const int map[ROWS][COLS] = {
+	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ,1, 1, 1, 1, 1, 1, 1},
+	{1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+	{1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+	{1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1},
+	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1},
+	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1},
+	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1},
+	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1},
+	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1},
+	{1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+	{1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+	{1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+};
+
 /**
  * scaler - multiplies a value by a scale factor
  *
@@ -19,12 +35,12 @@ float scaler(float value)
  * @player: pointer to the player struct.
  * @map: the map's 2D array.
 */
-void render(SDL_Instance *instance, Player *player, const int (*map)[COLS])
+void render(SDL_Instance *instance, Player *player)
 {
 	SDL_SetRenderDrawColor(instance->renderer, 0, 0, 0, 255);
 	SDL_RenderClear(instance->renderer);
 
-	renderMap(instance, map);
+	renderMap(instance);
 	renderPlayer(instance, player);
 
 	SDL_RenderPresent(instance->renderer);
@@ -62,7 +78,7 @@ void renderPlayer(SDL_Instance *instance, Player *player)
  * @instance: pointer to the window and renderer.
  * @map: the map's 2D array.
 */
-void renderMap(SDL_Instance *instance, const int (*map)[COLS])
+void renderMap(SDL_Instance *instance)
 {
 	int tileX, tileY, color;
 
@@ -86,4 +102,15 @@ void renderMap(SDL_Instance *instance, const int (*map)[COLS])
 			SDL_RenderFillRect(instance->renderer, &tileRect);
 		}
 	}
+}
+
+bool isBlocked(float x, float y)
+{
+	if (x < 0 || x > WINDOW_WIDTH || y < 0 || y > WINDOW_HEIGHT)
+		return true;
+
+	int indexX = floor(x / TILE_SIZE);
+	int indexY = floor(y / TILE_SIZE);
+
+	return map[indexY][indexX] != 0;
 }
