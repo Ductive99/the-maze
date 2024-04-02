@@ -20,6 +20,8 @@
 #include <stdio.h>
 #include <math.h>
 
+extern const int map[ROWS][COLS];
+
 /**
  * struct SDL_Instance - window and renderer
  *
@@ -66,9 +68,10 @@ void process(Player *player, int *game_state);
 void update(Player *player, int *last_frame_time);
 void movePlayer(Player *player, float Dt);
 
-void render(SDL_Instance *instance, Player *player, const int (*map)[COLS]);
+void render(SDL_Instance *instance, Player *player);
 void renderPlayer(SDL_Instance *instance, Player *player);
-void renderMap(SDL_Instance *instance, const int (*map)[COLS]);
+void renderMap(SDL_Instance *instance);
+bool isBlocked(float x, float y);
 float scaler(float value);
 
 
