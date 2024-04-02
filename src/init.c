@@ -14,6 +14,7 @@ int init_instance(SDL_Instance *instance)
 		fprintf(stderr, "%s\n", SDL_GetError());
 		return (false);
 	}
+
 	/* Window Initialization */
 	instance->window = SDL_CreateWindow(
 		"C ft. SDL",
@@ -26,6 +27,7 @@ int init_instance(SDL_Instance *instance)
 		fprintf(stderr, "%s\n", SDL_GetError());
 		return (false);
 	}
+
 	/* Renderer Initialization */
 	instance->renderer = SDL_CreateRenderer(instance->window, -1, 0);
 	if (!instance->renderer)
@@ -35,4 +37,16 @@ int init_instance(SDL_Instance *instance)
 	}
 
 	return (true);
+}
+
+/**
+ * destroy - destroys renderer and window instances.
+ *
+ * @instance: pointer to the window and renderer.
+*/
+void destroy(SDL_Instance *instance)
+{
+	SDL_DestroyRenderer(instance->renderer);
+	SDL_DestroyWindow(instance->window);
+	SDL_Quit();
 }
