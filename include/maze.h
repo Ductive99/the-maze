@@ -1,6 +1,16 @@
 #ifndef _MAZE_H_
 #define _MAZE_H_
 
+
+/*
+TODO:
+		Rays:
+	- castRays();
+	- handle horizontal/vertical intersections
+	- renderRays();
+*/
+
+
 #define PI 3.14159265
 
 #define ROWS 13
@@ -23,10 +33,10 @@
 extern const int map[ROWS][COLS];
 
 /**
- * struct SDL_Instance - window and renderer
+ * struct SDL_Instance - Represents the SDL window and renderer
  *
- * @window: the window
- * @renderer: the renderer
+ * @window: Pointer to the SDL_Window instance
+ * @renderer: Pointer to the SDL_Renderer instance
 */
 typedef struct SDL_Instance
 {
@@ -35,17 +45,17 @@ typedef struct SDL_Instance
 } SDL_Instance;
 
 /**
- * struct Player - defines all the variables that a player (camera) has
+ * struct Player - Represents the player (camera) in the game world
  *
- * @x: x-coordinates of the player
- * @y: y-coordinates of the player
- * @w: width of the player
- * @h: height of the player
- * @turnDirection: -1 for left ; 1 for right
- * @walkDirection: -1 for backward ; 1 for forward
- * @rotAngle:  rotation angle of the player
- * @walkSpeed:     walk speed of the player
- * @rotSpeed:  rotation speed of the player
+ * @x: X-coordinate of the player
+ * @y: Y-coordinate of the player
+ * @w: Width of the player
+ * @h: Height of the player
+ * @turnDirection: Direction of player's turning (-1 -> left, 1 -> right)
+ * @walkDirection: Direction of player's walking (-1 -> backward, 1 -> forward)
+ * @rotAngle: Rotation angle of the player
+ * @walkSpeed: Walk speed of the player
+ * @rotSpeed: Rotation speed of the player
 */
 typedef struct Player
 {
@@ -60,6 +70,30 @@ typedef struct Player
 	float rotSpeed;
 } Player;
 
+/**
+ * struct Ray - defines all the variables that a ray has
+ *
+ * @rayAngle: Angle of the ray relative to the player's orientation
+ * @wallHitX: X-coordinate of the first intersection of the ray with a wall
+ * @wallHitY: Y-coordinate of the first intersection of the ray with a wall
+ * @distance: Distance from player to the first wall hit
+ * @wasHitVertical: Signals if a vertical wall was hit (1 -> true, 0 -> false)
+ * @UorD: Signals if the ray is facing up or down (1 -> up, -1 -> down)
+ * @RorL: Signals if the ray is facing right or left (1 -> right, -1 -> left)
+ * @wallHitContent: Content of the wall hit by the ray (according to the map)
+*/
+typedef struct Ray
+{
+	float rayAngle;
+	float wallHitX;
+	float wallHitY;
+	float distance;
+	int wasHitVertical;
+	int UorD;
+	int RorL;
+	int wallHitContent;
+} Ray;
+
 int init_instance(SDL_Instance *instance);
 void destroy(SDL_Instance *instance);
 
@@ -73,6 +107,5 @@ void renderPlayer(SDL_Instance *instance, Player *player);
 void renderMap(SDL_Instance *instance);
 bool isBlocked(float x, float y);
 float scaler(float value);
-
 
 #endif /* _MAZE_H_ */
