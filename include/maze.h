@@ -5,6 +5,8 @@
 /*
 TODOs:
 	- Fix problem with raycasting into wall corners.
+	- Implement a color buffer
+	- Code wall projections
 */
 
 
