@@ -22,7 +22,7 @@ void setup(Player *player)
  * process - processes user's input.
  *
  * @game_state: variable to end the loop.
- * @player: player instance.
+ * @player: pointer to the player struct.
 */
 void process(Player *player, int *game_state)
 {
@@ -87,6 +87,7 @@ void update(Player *player, int *last_frame_time)
 	*last_frame_time = SDL_GetTicks();
 
 	movePlayer(player, delta_time);
+	castRays(player);
 }
 
 /**
