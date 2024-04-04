@@ -3,11 +3,8 @@
 
 
 /*
-TODO:
-		Rays:
-	- castRays();
-	- handle horizontal/vertical intersections
-	- renderRays();
+TODOs:
+	- Fix problem with raycasting into wall corners.
 */
 
 
@@ -21,6 +18,9 @@ TODO:
 #define WINDOW_HEIGHT (ROWS * TILE_SIZE)
 
 #define MAP_SCALE 1.0
+
+#define FOV (60 * PI / 180)
+#define RAYS WINDOW_WIDTH
 
 #define FPS 30
 #define FRAME_TIME (1000 / FPS)
@@ -78,8 +78,8 @@ typedef struct Player
  * @wallHitY: Y-coordinate of the first intersection of the ray with a wall
  * @distance: Distance from player to the first wall hit
  * @wasHitVertical: Signals if a vertical wall was hit (1 -> true, 0 -> false)
- * @UorD: Signals if the ray is facing up or down (1 -> up, -1 -> down)
- * @RorL: Signals if the ray is facing right or left (1 -> right, -1 -> left)
+ * @UorD: Signals if the ray is facing up or down (0 -> up, 1 -> down)
+ * @RorL: Signals if the ray is facing right or left (1 -> right, 0 -> left)
  * @wallHitContent: Content of the wall hit by the ray (according to the map)
 */
 typedef struct Ray
@@ -104,8 +104,16 @@ void movePlayer(Player *player, float Dt);
 
 void render(SDL_Instance *instance, Player *player);
 void renderPlayer(SDL_Instance *instance, Player *player);
+void renderRays(SDL_Instance *instance, Player *player);
 void renderMap(SDL_Instance *instance);
+void castRays(Player *player);
+void castRay(Player *player, float rayAngle, int Id);
+
+
+/* Helper Functions*/
 bool isBlocked(float x, float y);
 float scaler(float value);
+float normalize(float angle);
+float distanceBtwn(float x1, float y1, float x2, float y2);
 
 #endif /* _MAZE_H_ */
