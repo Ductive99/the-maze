@@ -309,7 +309,11 @@ function renderFloor() {
 }
 
 function normalize(angle) {
-    return angle % (2 * Math.PI);
+    angle = angle % (2 * Math.PI);
+    if (angle < 0) {
+        angle = (2 * Math.PI) + angle;
+    }
+    return angle;
 }
 
 function distanceBtwn(x1, y1, x2, y2) {
