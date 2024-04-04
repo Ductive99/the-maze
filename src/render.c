@@ -152,7 +152,7 @@ void castRay(Player *player, float rayAngle, int Id)
 
 	xintercept = player->x + (yintercept - player->y) / tan(rayAngle);
 
-	ystep = !UPorDOWN ? -TILE_SIZE : TILE_SIZE;
+	ystep = UPorDOWN ? TILE_SIZE : -TILE_SIZE;
 
 	xstep = TILE_SIZE / tan(rayAngle);
 	xstep *= (!RIGHTorLEFT && xstep > 0) ? -1 : 1;
@@ -165,7 +165,7 @@ void castRay(Player *player, float rayAngle, int Id)
 		(nextHtouchY >= 0 && nextHtouchY <= WINDOW_HEIGHT))
 	{
 		float xCheck = nextHtouchX;
-		float yCheck = nextHtouchY + (UPorDOWN ? 0 : -1);
+		float yCheck = nextHtouchY - (UPorDOWN ? 0 : 1);
 
 		if (isBlocked(xCheck, yCheck))
 		{
