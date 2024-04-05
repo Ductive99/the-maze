@@ -1,26 +1,6 @@
 #include "maze.h"
 
 /**
- * isBlocked - Checks if there's a wall at given coordinates.
- *
- * @x: The X-coordinate.
- * @y: The Y-coordinate.
- *
- * Return: true if a wall exists at the specified coordinates,
- * otherwise returns false.
-*/
-bool isBlocked(float x, float y)
-{
-	if (x < 0 || x > WINDOW_WIDTH || y < 0 || y > WINDOW_HEIGHT)
-		return true;
-
-	int indexX = floor(x / TILE_SIZE);
-	int indexY = floor(y / TILE_SIZE);
-
-	return (map[indexY][indexX] != 0);
-}
-
-/**
  * scaler - Multiplies a value by a scale factor
  *
  * @value: Value to multiply.
@@ -49,7 +29,7 @@ float normalize(float angle)
 }
 
 /**
- * distanceBtwn - computes the distance between two points.
+ * distanceBtwn - Calculates the distance between two points.
  *
  * @x1: The X-coordinate of the 1st point.
  * @y1: The Y-coordinate of the 1st point.
@@ -61,4 +41,22 @@ float normalize(float angle)
 float distanceBtwn(float x1, float y1, float x2, float y2)
 {
     return (sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)));
+}
+
+/**
+ * getGridVal - retrieves the content of the map at a given position.
+ *
+ * @x: The X-coordinate.
+ * @y: The Y-coordinate.
+ *
+ * Return: the value in the map grid corresponding to the given position.
+*/
+int getGridVal(float x, float y)
+{
+	if (x < 0 || x > WINDOW_WIDTH || y < 0 || y > WINDOW_HEIGHT)
+		return 0;
+	int indexX = floor(x / TILE_SIZE);
+	int indexY = floor(y / TILE_SIZE);
+
+	return (map[indexY][indexX]);
 }
