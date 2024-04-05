@@ -164,14 +164,15 @@ void castRay(Player *player, float rayAngle, int Id)
 	while ((nextHtouchX >= 0 && nextHtouchX <= WINDOW_WIDTH) && 
 		(nextHtouchY >= 0 && nextHtouchY <= WINDOW_HEIGHT))
 	{
-		float xCheck = nextHtouchX;
-		float yCheck = nextHtouchY - (UPorDOWN ? 0 : 1);
+        horzWallContent = getGridVal(
+			nextHtouchX,
+			nextHtouchY - (UPorDOWN ? 0 : 1) 
+		);
 
-		if (isBlocked(xCheck, yCheck))
+		if (horzWallContent != 0)
 		{
 			horzWallHitX = nextHtouchX;
 			horzWallHitY = nextHtouchY;
-            horzWallContent = map[(int)floor(yCheck / TILE_SIZE)][(int)floor(xCheck / TILE_SIZE)];
 			horzWallIsHit = true;
 			break;
 		}
@@ -205,14 +206,15 @@ void castRay(Player *player, float rayAngle, int Id)
 	while ((nextVtouchX >= 0 && nextVtouchX <= WINDOW_WIDTH) &&
 		(nextVtouchY >= 0 && nextVtouchY <= WINDOW_HEIGHT))
 	{
-		float xCheck = nextVtouchX - (RIGHTorLEFT ? 0 : 1);
-		float yCheck = nextVtouchY;
+		vertWallContent = getGridVal(
+			nextVtouchX - (RIGHTorLEFT ? 0 : 1),
+			nextVtouchY
+		);
 
-		if (isBlocked(xCheck, yCheck))
+		if (vertWallContent != 0)
 		{
 			vertWallHitX = nextVtouchX;
 			vertWallHitY = nextVtouchY;
-			vertWallContent = map[(int)floor(yCheck / TILE_SIZE)][(int)floor(xCheck / TILE_SIZE)];
 			vertWallIsHit = true;
 			break;
 		}
@@ -250,3 +252,4 @@ void castRay(Player *player, float rayAngle, int Id)
     rays[Id].UorD = UPorDOWN;
     rays[Id].RorL = RIGHTorLEFT;
 }
+
