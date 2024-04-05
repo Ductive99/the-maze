@@ -146,20 +146,18 @@ class Ray {
         var nextHtouchY = yintercept;
 
         while (nextHtouchX >= 0 && nextHtouchX <= WINDOW_WIDTH && nextHtouchY >= 0 && nextHtouchY <= WINDOW_HEIGHT) {
-            var wallVal = grid.getGridVal(
+            var horzWallColor = grid.getGridVal(
                 nextHtouchX,
                 nextHtouchY - (this.isRayFacingUp ? 1 : 0)
             );
-            if (wallVal != 0) {
+            if (horzWallColor != 0) {
                 horzWallIsHit = true;
                 horzWallHitX = nextHtouchX;
                 horzWallHitY = nextHtouchY;
-                horzWallColor = wallVal;
                 break;
-            } else {
-                nextHtouchX += xstep;
-                nextHtouchY += ystep;
             }
+            nextHtouchX += xstep;
+            nextHtouchY += ystep;
         }
         /* VERTICAL RAY-GRID INTERSECTION */
         var vertWallIsHit = false;
@@ -183,20 +181,19 @@ class Ray {
         var nextVtouchY = yintercept;
 
         while (nextVtouchX >= 0 && nextVtouchX <= WINDOW_WIDTH && nextVtouchY >= 0 && nextVtouchY <= WINDOW_HEIGHT) {
-            var wallVal = grid.getGridVal(
+            var vertWallColor = grid.getGridVal(
                 nextVtouchX - (this.isRayFacingLeft ? 1 : 0),
                 nextVtouchY
             );
-            if (wallVal != 0) {
+            if (vertWallColor != 0) {
                 vertWallIsHit = true;
                 vertWallHitX = nextVtouchX;
                 vertWallHitY = nextVtouchY;
-                vertWallColor = wallVal;
                 break;
-            } else {
-                nextVtouchX += xstep;
-                nextVtouchY += ystep;
             }
+            nextVtouchX += xstep;
+            nextVtouchY += ystep;
+
         }
         var hHitDistance = (horzWallIsHit)
             ? distanceBtwn(player.x, player.y, horzWallHitX, horzWallHitY)
