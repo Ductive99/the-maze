@@ -11,7 +11,7 @@ The Maze Game is a simple yet engaging project that allows users to navigate thr
 ## Installation
 1. Clone the repository to your local machine:
     ```bash
-    git clone https://github.com/Ductive99/maze-game.git
+    git clone https://github.com/Ductive99/the-maze.git
     ```
 2. Open the `MVP/index.html` file in a web browser to play the game.
 
