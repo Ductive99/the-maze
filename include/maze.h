@@ -113,9 +113,9 @@ void castRay(Player *player, float rayAngle, int Id);
 
 
 /* Helper Functions*/
-bool isBlocked(float x, float y);
-float scaler(float value);
-float normalize(float angle);
 float distanceBtwn(float x1, float y1, float x2, float y2);
+float normalize(float angle);
+float scaler(float value);
+int getGridVal(float x, float y);
 
 #endif /* _MAZE_H_ */
