@@ -104,7 +104,7 @@ void movePlayer(Player *player, float Dt)
 
 	float projX = player->x + cos(player->rotAngle) * step;
 	float projY = player->y + sin(player->rotAngle) * step;
-	if (!isBlocked(projX, projY))
+	if (!getGridVal(projX, projY))
 	{
 		player->x += cos(player->rotAngle) * step;
 		player->y += sin(player->rotAngle) * step;
