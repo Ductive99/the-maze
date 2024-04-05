@@ -166,7 +166,7 @@ void castRay(Player *player, float rayAngle, int Id)
 	{
         horzWallContent = getGridVal(
 			nextHtouchX,
-			nextHtouchY - (UPorDOWN ? 0 : 1) 
+			nextHtouchY - (UPorDOWN ? 0 : 1)
 		);
 
 		if (horzWallContent != 0)
@@ -176,11 +176,8 @@ void castRay(Player *player, float rayAngle, int Id)
 			horzWallIsHit = true;
 			break;
 		}
-		else
-		{
-			nextHtouchX += xstep;
-			nextHtouchY += ystep;
-		}
+		nextHtouchX += xstep;
+		nextHtouchY += ystep;
 	}
 
 	/* VERTICAL RAY-GRID INTERSECTION */
@@ -218,11 +215,8 @@ void castRay(Player *player, float rayAngle, int Id)
 			vertWallIsHit = true;
 			break;
 		}
-		else
-		{
-			nextVtouchX += xstep;
-			nextVtouchY += ystep;
-		}
+		nextVtouchX += xstep;
+		nextVtouchY += ystep;
 	}
 
 	float horzHitDistance = horzWallIsHit
@@ -232,7 +226,7 @@ void castRay(Player *player, float rayAngle, int Id)
 		? distanceBtwn(player->x, player->y, vertWallHitX, vertWallHitY)
 		: FLT_MAX;
 
-	if (vertHitDistance < horzHitDistance)
+	if (vertHitDistance <= horzHitDistance)
 	{
         rays[Id].distance = vertHitDistance;
         rays[Id].wallHitX = vertWallHitX;
@@ -252,4 +246,3 @@ void castRay(Player *player, float rayAngle, int Id)
     rays[Id].UorD = UPorDOWN;
     rays[Id].RorL = RIGHTorLEFT;
 }
-
