@@ -14,6 +14,10 @@ The Maze Game is a simple yet engaging project that allows users to navigate thr
     git clone https://github.com/Ductive99/the-maze.git
     ```
 2. Open the `MVP/index.html` file in a web browser to play the game.
+3. In the root folder run:
+    ```bash
+    make; make run
+    ```
 
 ## Usage
 - Use the arrow keys (Up, Down, Left, Right) to navigate through the maze.
@@ -30,7 +34,10 @@ Contributions are welcome! If you'd like to contribute to the project, please fo
 
 
 ## Acknowledgements
-- The project utilizes the p5.js library for real-time rendering (https://p5js.org/).
+- For C:
+	- The project utilizes the SDL2 library (https://www.libsdl.org/).
+- For JavaScript (MVP/):
+	- The project utilizes the p5.js library (https://p5js.org/).
 
 ## Contact
 For any inquiries or feedback, please contact [sou.ductive@gmail.com].
