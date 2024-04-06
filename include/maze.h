@@ -5,8 +5,6 @@
 /*
 TODOs:
 	- Fix problem with raycasting into wall corners.
-	- Implement a color buffer
-	- Code wall projections
 */
 
 
@@ -22,7 +20,7 @@ TODOs:
 #define MAP_SCALE 0.2
 
 #define FOV (60 * PI / 180)
-#define RAYS (60)
+#define RAYS (WINDOW_WIDTH)
 
 #define FPS 30
 #define FRAME_TIME (1000 / FPS)
@@ -108,10 +106,13 @@ void movePlayer(Player *player, float Dt);
 
 void render(SDL_Instance *instance, Player *player);
 void renderPlayer(SDL_Instance *instance, Player *player);
-void renderRays(SDL_Instance *instance, Player *player);
 void renderMap(SDL_Instance *instance);
+
+void renderRays(SDL_Instance *instance, Player *player);
 void castRays(Player *player);
 void castRay(Player *player, float rayAngle, int Id);
+
+void render3d(SDL_Instance *instance, Player *player);
 
 void renderColorBuffer(SDL_Instance *instance);
 void clearColorBuffer(SDL_Instance *instance, Uint32 color);
