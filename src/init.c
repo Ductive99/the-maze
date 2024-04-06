@@ -35,6 +35,7 @@ int init_instance(SDL_Instance *instance)
 		fprintf(stderr, "%s\n", SDL_GetError());
 		return (false);
 	}
+	SDL_SetRenderDrawBlendMode(instance->renderer, SDL_BLENDMODE_BLEND);
 
 	return (true);
 }
