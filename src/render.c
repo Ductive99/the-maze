@@ -29,6 +29,8 @@ void render(SDL_Instance *instance, Player *player)
 	SDL_SetRenderDrawColor(instance->renderer, 0, 0, 0, 255);
 	SDL_RenderClear(instance->renderer);
 
+	render3d(instance, player);
+
 	renderColorBuffer(instance);
 	clearColorBuffer(instance, 0xFF4545FF);
 
@@ -248,4 +250,34 @@ void castRay(Player *player, float rayAngle, int Id)
     rays[Id].rayAngle = rayAngle;
     rays[Id].UorD = UPorDOWN;
     rays[Id].RorL = RIGHTorLEFT;
+}
+
+void render3d(SDL_Instance *instance, Player *player)
+{
+	for (int i = 0; i < RAYS; i++)
+	{
+		float wallDistance = rays[i].distance * cos(rays[i].rayAngle - player->rotAngle);
+		float projPlaneDistance = (WINDOW_WIDTH / 2) / tan(FOV / 2);
+		float projWallHeight = (TILE_SIZE / wallDistance) * projPlaneDistance;
+
+		int wallHeight = (int)projWallHeight;
+
+		int topWallPixel = (WINDOW_HEIGHT / 2) - (wallHeight / 2);
+		if (topWallPixel < 0) topWallPixel = 0;
+
+		int bottomWallPixel = (WINDOW_HEIGHT / 2) + (wallHeight / 2);
+		if (bottomWallPixel > WINDOW_HEIGHT) bottomWallPixel = WINDOW_HEIGHT;
+
+		/*
+			Changing the number of rays (RAYS) will affect the width of the walls
+			to prevent this make sure to update the i in the following likewise:
+			[(WINDOW_WIDTH * y) + i] ===> [(WINDOW_WIDTH * y) + (i * WINDOW_WIDTH) / RAYS]
+		*/
+		for (int c = 0; c < topWallPixel; c++)
+			instance->colorBuffer[(WINDOW_WIDTH * c) + i] = 0xFF22228F;
+		for (int w = topWallPixel; w < bottomWallPixel; w++)
+			instance->colorBuffer[(WINDOW_WIDTH * w) + i] = rays[i].wasHitVertical ? 0xFFFFFFFF : 0xFFCACACA;
+		for (int f = bottomWallPixel; f < WINDOW_HEIGHT; f++)
+			instance->colorBuffer[(WINDOW_WIDTH * f) + i] = 0xFF4652FF;
+	}
 }
