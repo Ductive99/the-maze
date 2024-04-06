@@ -21,8 +21,8 @@ Ray rays[RAYS];
 /**
  * render - renders the frame.
  *
- * @instance: Pointer to the window and renderer.
- * @player: Pointer to the player struct.
+ * @instance: Pointer the SDL_Instance struct.
+ * @player: Pointer to the Player struct.
 */
 void render(SDL_Instance *instance, Player *player)
 {
@@ -44,8 +44,8 @@ void render(SDL_Instance *instance, Player *player)
 /**
  * renderPlayer - renders a player.
  *
- * @instance: Pointer to the window and renderer.
- * @player: Pointer to the player struct.
+ * @instance: Pointer the SDL_Instance struct.
+ * @player: Pointer to the Player struct.
 */
 void renderPlayer(SDL_Instance *instance, Player *player)
 {
@@ -70,7 +70,7 @@ void renderPlayer(SDL_Instance *instance, Player *player)
 /**
  * renderMap - renders the 2D map.
  *
- * @instance: Pointer to the window and renderer.
+ * @instance: Pointer the SDL_Instance struct.
 */
 void renderMap(SDL_Instance *instance)
 {
@@ -98,7 +98,12 @@ void renderMap(SDL_Instance *instance)
 	}
 }
 
-
+/**
+ * renderRays - renders every ray.
+ *
+ * @instance: Pointer the SDL_Instance struct.
+ * @player: Pointer to the Player struct.
+*/
 void renderRays(SDL_Instance *instance, Player *player)
 {
     SDL_SetRenderDrawColor(instance->renderer, 255, 0, 0, 255);
@@ -114,9 +119,9 @@ void renderRays(SDL_Instance *instance, Player *player)
 }
 
 /**
- * castRays - Calls the castRay() function with the correct ray.
+ * castRays - Calls the castRay() function for each ray.
  *
- * @player: Pointer to the player struct.
+ * @player: Pointer to the Player struct.
 */
 void castRays(Player *player)
 {
@@ -132,7 +137,7 @@ void castRays(Player *player)
 /**
  * castRay - Casts a single ray until encountring a wall.
  *
- * @player: Pointer to the player struct.
+ * @player: Pointer to the Player struct.
  * @rayAngle: Angle relative to the player's orientation.
  * @Id: The id of the ray.
 */
@@ -252,6 +257,12 @@ void castRay(Player *player, float rayAngle, int Id)
     rays[Id].RorL = RIGHTorLEFT;
 }
 
+/**
+ * render3d - renders the walls, ceiling and floor
+ *
+ * @instance: Pointer the SDL_Instance struct.
+ * @player: Pointer to the Player struct.
+*/
 void render3d(SDL_Instance *instance, Player *player)
 {
 	for (int i = 0; i < RAYS; i++)
