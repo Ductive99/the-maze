@@ -4,7 +4,7 @@
 
 /*
 TODOs:
-	- Fix problem with raycasting into wall corners.
+	- Work on textures.
 */
 
 
@@ -37,6 +37,8 @@ extern const int map[ROWS][COLS];
  *
  * @window: Pointer to the SDL_Window instance
  * @renderer: Pointer to the SDL_Renderer instance
+ * @texture: Pointer to the SDL_texture instance
+ * @colorBuffer: Pointer to the colorBuffer
 */
 typedef struct SDL_Instance
 {
