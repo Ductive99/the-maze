@@ -5,7 +5,7 @@
  *
  * @player: pointer to the player struct.
 */
-void setup(Player *player)
+void setup(SDL_Instance *instance, Player *player)
 {
 	player->x = WINDOW_WIDTH / 2;
 	player->y = WINDOW_HEIGHT / 2;
@@ -16,6 +16,16 @@ void setup(Player *player)
 	player->rotAngle = PI / 2;
 	player->walkSpeed = 200;
 	player->rotSpeed = 75 * PI / 180;
+
+	instance->colorBuffer = (Uint32*)malloc(sizeof(Uint32) * WINDOW_HEIGHT * WINDOW_WIDTH);
+
+	instance->texture = SDL_CreateTexture(
+		instance->renderer,
+		SDL_PIXELFORMAT_ARGB8888,
+		SDL_TEXTUREACCESS_STREAMING,
+		WINDOW_WIDTH,
+		WINDOW_HEIGHT
+	);
 }
 
 /**
