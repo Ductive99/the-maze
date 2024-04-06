@@ -6,12 +6,12 @@ const int map[ROWS][COLS] = {
 	{1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 	{1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1},
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1},
+	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1},
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1},
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1},
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1},
 	{1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+	{1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 	{1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
 };
@@ -28,6 +28,9 @@ void render(SDL_Instance *instance, Player *player)
 {
 	SDL_SetRenderDrawColor(instance->renderer, 0, 0, 0, 255);
 	SDL_RenderClear(instance->renderer);
+
+	renderColorBuffer(instance);
+	clearColorBuffer(instance, 0xFF4545FF);
 
 	renderMap(instance);
 	renderRays(instance, player);
@@ -98,13 +101,13 @@ void renderRays(SDL_Instance *instance, Player *player)
 {
     SDL_SetRenderDrawColor(instance->renderer, 255, 0, 0, 255);
     for (int i = 0; i < RAYS; i++) {
-        SDL_RenderDrawLine(
-            instance->renderer,
-            scaler(player->x),
-            scaler(player->y),
-            scaler(rays[i].wallHitX),
-            scaler(rays[i].wallHitY)
-        );
+		SDL_RenderDrawLine(
+			instance->renderer,
+			scaler(player->x),
+			scaler(player->y),
+			scaler(rays[i].wallHitX),
+			scaler(rays[i].wallHitY)
+		);
     }
 }
 
