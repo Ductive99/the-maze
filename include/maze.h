@@ -19,10 +19,10 @@ TODOs:
 #define WINDOW_WIDTH (COLS * TILE_SIZE)
 #define WINDOW_HEIGHT (ROWS * TILE_SIZE)
 
-#define MAP_SCALE 1.0
+#define MAP_SCALE 0.2
 
 #define FOV (60 * PI / 180)
-#define RAYS (WINDOW_WIDTH)
+#define RAYS (60)
 
 #define FPS 30
 #define FRAME_TIME (1000 / FPS)
@@ -44,6 +44,8 @@ typedef struct SDL_Instance
 {
 	SDL_Window *window;
 	SDL_Renderer *renderer;
+	SDL_Texture *texture;
+	Uint32 *colorBuffer;
 } SDL_Instance;
 
 /**
@@ -99,7 +101,7 @@ typedef struct Ray
 int init_instance(SDL_Instance *instance);
 void destroy(SDL_Instance *instance);
 
-void setup(Player *player);
+void setup(SDL_Instance *instance, Player *player);
 void process(Player *player, int *game_state);
 void update(Player *player, int *last_frame_time);
 void movePlayer(Player *player, float Dt);
@@ -110,6 +112,9 @@ void renderRays(SDL_Instance *instance, Player *player);
 void renderMap(SDL_Instance *instance);
 void castRays(Player *player);
 void castRay(Player *player, float rayAngle, int Id);
+
+void renderColorBuffer(SDL_Instance *instance);
+void clearColorBuffer(SDL_Instance *instance, Uint32 color);
 
 
 /* Helper Functions*/
