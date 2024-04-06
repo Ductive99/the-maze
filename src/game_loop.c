@@ -3,6 +3,7 @@
 /**
  * setup - initializes a player's position and speed.
  *
+ * @instance: pointer the SDL_Instance struct.
  * @player: pointer to the player struct.
 */
 void setup(SDL_Instance *instance, Player *player)
@@ -31,8 +32,8 @@ void setup(SDL_Instance *instance, Player *player)
 /**
  * process - processes user's input.
  *
+ * @player: pointer to the Player struct.
  * @game_state: variable to end the loop.
- * @player: pointer to the player struct.
 */
 void process(Player *player, int *game_state)
 {
@@ -82,7 +83,7 @@ void process(Player *player, int *game_state)
 /**
  * update - handles updating the frames and wall collisions.
  *
- * @player: pointer to the player struct.
+ * @player: pointer to the Player struct.
  * @last_frame_time: time since the last frame.
 */
 void update(Player *player, int *last_frame_time)
@@ -103,7 +104,7 @@ void update(Player *player, int *last_frame_time)
 /**
  * movePlayer - controls the player's movement.
  *
- * @player: pointer to the player struct.
+ * @player: pointer to the Player struct.
  * @Dt: delta time: time since last render.
 */
 void movePlayer(Player *player, float Dt)
