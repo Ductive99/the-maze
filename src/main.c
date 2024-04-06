@@ -1,7 +1,7 @@
 #include "maze.h"
 
 /* Global Variables */
-SDL_Instance instance = {NULL, NULL};
+SDL_Instance instance;
 Player player;
 int last_frame_time = 0;
 int game_state = false;
@@ -15,7 +15,7 @@ int main(void)
 {
 	game_state = init_instance(&instance);
 
-	setup(&player);
+	setup(&instance, &player);
 
 	while (game_state)
 	{
