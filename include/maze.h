@@ -44,8 +44,6 @@ typedef struct SDL_Instance
 {
 	SDL_Window *window;
 	SDL_Renderer *renderer;
-	SDL_Texture *texture;
-	Uint32 *colorBuffer;
 } SDL_Instance;
 
 /**
@@ -78,6 +76,7 @@ typedef struct SDL_Visuals
 {
 	SDL_Texture *texture;
 	Uint32 *colorBuffer;
+	Uint32 *wallTexture;
 } SDL_Visuals;
 
 /**
