@@ -1,4 +1,5 @@
 #include "maze.h"
+#include "textures.h"
 
 /**
  * setup - initializes a player's position and speed.
@@ -29,12 +30,14 @@ void setup(SDL_Instance *instance, SDL_Visuals *visuals, Player *player)
 		WINDOW_HEIGHT
 	);
 
-	visuals->wallTexture = (Uint32*)malloc(sizeof(Uint32) * TILE_SIZE * TILE_SIZE);
-	for (int x = 0; x < TILE_SIZE; x++)
-	{
-		for (int y = 0; y < TILE_SIZE; y++)
-			visuals->wallTexture[TILE_SIZE * y + x] = (x % 8 && y % 8) ? 0xFFAB1D35 : 0xFF000000;
-	}
+	visuals->loadedTextures[0] = (Uint32*) REDBRICK_TEXTURE;
+    visuals->loadedTextures[1] = (Uint32*) PURPLESTONE_TEXTURE;
+    visuals->loadedTextures[2] = (Uint32*) MOSSYSTONE_TEXTURE;
+    visuals->loadedTextures[3] = (Uint32*) GRAYSTONE_TEXTURE;
+    visuals->loadedTextures[4] = (Uint32*) COLORSTONE_TEXTURE;
+    visuals->loadedTextures[5] = (Uint32*) BLUESTONE_TEXTURE;
+    visuals->loadedTextures[6] = (Uint32*) WOOD_TEXTURE;
+    visuals->loadedTextures[7] = (Uint32*) EAGLE_TEXTURE;
 }
 
 /**
