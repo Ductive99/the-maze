@@ -17,7 +17,6 @@ int main(void)
 	game_state = init_instance(&instance);
 
 	setup(&instance, &visuals, &player);
-
 	while (game_state)
 	{
 		process(&player, &game_state);
