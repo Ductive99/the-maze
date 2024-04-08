@@ -19,7 +19,7 @@ TODOs:
 
 #define MAP_SCALE 0.2
 
-#define FOV (50 * PI / 180)
+#define FOV (70 * PI / 180)
 #define RAYS (WINDOW_WIDTH)
 
 #define FPS 30
