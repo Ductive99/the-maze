@@ -47,6 +47,7 @@ int init_instance(SDL_Instance *instance)
 */
 void destroy(SDL_Instance *instance, SDL_Visuals *visuals)
 {
+	free(visuals->wallTexture);
 	free(visuals->colorBuffer);
 	SDL_DestroyTexture(visuals->texture);
 	SDL_DestroyRenderer(instance->renderer);
