@@ -17,6 +17,8 @@ TODOs:
 #define WINDOW_WIDTH (COLS * TILE_SIZE)
 #define WINDOW_HEIGHT (ROWS * TILE_SIZE)
 
+#define TEXTURES 8
+
 #define MAP_SCALE 0.2
 
 #define FOV (70 * PI / 180)
@@ -77,6 +79,7 @@ typedef struct SDL_Visuals
 	SDL_Texture *texture;
 	Uint32 *colorBuffer;
 	Uint32 *wallTexture;
+	Uint32 *loadedTextures[TEXTURES];
 } SDL_Visuals;
 
 /**
