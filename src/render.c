@@ -24,15 +24,15 @@ Ray rays[RAYS];
  * @instance: Pointer the SDL_Instance struct.
  * @player: Pointer to the Player struct.
 */
-void render(SDL_Instance *instance, Player *player)
+void render(SDL_Instance *instance, SDL_Visuals*visuals, Player *player)
 {
 	SDL_SetRenderDrawColor(instance->renderer, 0, 0, 0, 255);
 	SDL_RenderClear(instance->renderer);
 
-	render3d(instance, player);
+	render3d(visuals, player);
 
-	renderColorBuffer(instance);
-	clearColorBuffer(instance, 0xFF4545FF);
+	renderColorBuffer(instance, visuals);
+	clearColorBuffer(visuals, 0xFF4545FF);
 
 	renderMap(instance);
 	renderRays(instance, player);
@@ -263,7 +263,7 @@ void castRay(Player *player, float rayAngle, int Id)
  * @instance: Pointer the SDL_Instance struct.
  * @player: Pointer to the Player struct.
 */
-void render3d(SDL_Instance *instance, Player *player)
+void render3d(SDL_Visuals *visuals, Player *player)
 {
 	for (int i = 0; i < RAYS; i++)
 	{
@@ -285,10 +285,10 @@ void render3d(SDL_Instance *instance, Player *player)
 			[(WINDOW_WIDTH * y) + i] ===> [(WINDOW_WIDTH * y) + (i * WINDOW_WIDTH) / RAYS]
 		*/
 		for (int c = 0; c < topWallPixel; c++)
-			instance->colorBuffer[(WINDOW_WIDTH * c) + i] = 0xFF22228F;
+			visuals->colorBuffer[(WINDOW_WIDTH * c) + i] = 0xFF22228F;
 		for (int w = topWallPixel; w < bottomWallPixel; w++)
-			instance->colorBuffer[(WINDOW_WIDTH * w) + i] = rays[i].wasHitVertical ? 0xFFFFFFFF : 0xFFCACACA;
+			visuals->colorBuffer[(WINDOW_WIDTH * w) + i] = rays[i].wasHitVertical ? 0xFFFFFFFF : 0xFFCACACA;
 		for (int f = bottomWallPixel; f < WINDOW_HEIGHT; f++)
-			instance->colorBuffer[(WINDOW_WIDTH * f) + i] = 0xFF4652FF;
+			visuals->colorBuffer[(WINDOW_WIDTH * f) + i] = 0xFF4652FF;
 	}
 }

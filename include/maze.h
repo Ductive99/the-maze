@@ -19,7 +19,7 @@ TODOs:
 
 #define MAP_SCALE 0.2
 
-#define FOV (60 * PI / 180)
+#define FOV (50 * PI / 180)
 #define RAYS (WINDOW_WIDTH)
 
 #define FPS 30
@@ -74,6 +74,12 @@ typedef struct Player
 	float rotSpeed;
 } Player;
 
+typedef struct SDL_Visuals
+{
+	SDL_Texture *texture;
+	Uint32 *colorBuffer;
+} SDL_Visuals;
+
 /**
  * struct Ray - defines all the variables that a ray has
  *
@@ -99,14 +105,14 @@ typedef struct Ray
 } Ray;
 
 int init_instance(SDL_Instance *instance);
-void destroy(SDL_Instance *instance);
+void destroy(SDL_Instance *instance, SDL_Visuals *visuals);
 
-void setup(SDL_Instance *instance, Player *player);
+void setup(SDL_Instance *instance, SDL_Visuals *visuals, Player *player);
 void process(Player *player, int *game_state);
 void update(Player *player, int *last_frame_time);
 void movePlayer(Player *player, float Dt);
 
-void render(SDL_Instance *instance, Player *player);
+void render(SDL_Instance *instance, SDL_Visuals*visuals, Player *player);
 void renderPlayer(SDL_Instance *instance, Player *player);
 void renderMap(SDL_Instance *instance);
 
@@ -114,10 +120,10 @@ void renderRays(SDL_Instance *instance, Player *player);
 void castRays(Player *player);
 void castRay(Player *player, float rayAngle, int Id);
 
-void render3d(SDL_Instance *instance, Player *player);
+void render3d(SDL_Visuals *visuals, Player *player);
 
-void renderColorBuffer(SDL_Instance *instance);
-void clearColorBuffer(SDL_Instance *instance, Uint32 color);
+void renderColorBuffer(SDL_Instance *instance, SDL_Visuals *visuals);
+void clearColorBuffer(SDL_Visuals *visuals, Uint32 color);
 
 
 /* Helper Functions*/

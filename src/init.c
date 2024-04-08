@@ -45,10 +45,10 @@ int init_instance(SDL_Instance *instance)
  *
  * @instance: pointer to the window and renderer.
 */
-void destroy(SDL_Instance *instance)
+void destroy(SDL_Instance *instance, SDL_Visuals *visuals)
 {
-	free(instance->colorBuffer);
-	SDL_DestroyTexture(instance->texture);
+	free(visuals->colorBuffer);
+	SDL_DestroyTexture(visuals->texture);
 	SDL_DestroyRenderer(instance->renderer);
 	SDL_DestroyWindow(instance->window);
 	SDL_Quit();

@@ -2,6 +2,7 @@
 
 /* Global Variables */
 SDL_Instance instance;
+SDL_Visuals visuals;
 Player player;
 int last_frame_time = 0;
 int game_state = false;
@@ -15,16 +16,16 @@ int main(void)
 {
 	game_state = init_instance(&instance);
 
-	setup(&instance, &player);
+	setup(&instance, &visuals, &player);
 
 	while (game_state)
 	{
 		process(&player, &game_state);
 		update(&player, &last_frame_time);
-		render(&instance, &player);
+		render(&instance, &visuals, &player);
 	}
 
-	destroy(&instance);
+	destroy(&instance, &visuals);
 
 	return (0);
 }
