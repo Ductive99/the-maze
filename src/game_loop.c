@@ -3,8 +3,9 @@
 /**
  * setup - initializes a player's position and speed.
  *
- * @instance: pointer the SDL_Instance struct.
- * @player: pointer to the player struct.
+ * @instance: Pointer to the SDL_Instance struct.
+ * @visuals: Pointer to the SDL_Visuals struct.
+ * @player: Pointer to the player struct.
 */
 void setup(SDL_Instance *instance, SDL_Visuals *visuals, Player *player)
 {
@@ -27,6 +28,13 @@ void setup(SDL_Instance *instance, SDL_Visuals *visuals, Player *player)
 		WINDOW_WIDTH,
 		WINDOW_HEIGHT
 	);
+
+	visuals->wallTexture = (Uint32*)malloc(sizeof(Uint32) * TILE_SIZE * TILE_SIZE);
+	for (int x = 0; x < TILE_SIZE; x++)
+	{
+		for (int y = 0; y < TILE_SIZE; y++)
+			visuals->wallTexture[TILE_SIZE * y + x] = (x % 8 && y % 8) ? 0xFFAB1D35 : 0xFF000000;
+	}
 }
 
 /**
