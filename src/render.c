@@ -269,9 +269,9 @@ void render3d(SDL_Visuals *visuals, Player *player)
 	{
 		float wallDistance = rays[i].distance * cos(rays[i].rayAngle - player->rotAngle);
 		float projPlaneDistance = (WINDOW_WIDTH / 2) / tan(FOV / 2);
-		float projWallHeight = (TILE_SIZE / wallDistance) * projPlaneDistance;
+		int wallHeight = (TILE_SIZE / wallDistance) * projPlaneDistance;
 
-		int wallHeight = (int)projWallHeight;
+		// int wallHeight = (int)projWallHeight;
 
 		int topWallPixel = (WINDOW_HEIGHT / 2) - (wallHeight / 2);
 		if (topWallPixel < 0) topWallPixel = 0;
@@ -284,10 +284,25 @@ void render3d(SDL_Visuals *visuals, Player *player)
 			to prevent this make sure to update the i in the following likewise:
 			[(WINDOW_WIDTH * y) + i] ===> [(WINDOW_WIDTH * y) + (i * WINDOW_WIDTH) / RAYS]
 		*/
+		/* Sets a solid color to the ceiling*/
 		for (int c = 0; c < topWallPixel; c++)
 			visuals->colorBuffer[(WINDOW_WIDTH * c) + i] = 0xFF22228F;
+
+		/* Sets wall textures pixel by pixel */
+		int xoffset;
+		if (rays[i].wasHitVertical)
+			xoffset = (int)rays[i].wallHitY % TILE_SIZE;
+		else
+			xoffset = (int)rays[i].wallHitX % TILE_SIZE;
+
 		for (int w = topWallPixel; w < bottomWallPixel; w++)
-			visuals->colorBuffer[(WINDOW_WIDTH * w) + i] = rays[i].wasHitVertical ? 0xFFFFFFFF : 0xFFCACACA;
+		{
+			int topWallDistance = w + wallHeight / 2 - WINDOW_HEIGHT / 2;
+			int yoffset = topWallDistance * ((float)TILE_SIZE / wallHeight);
+
+			visuals->colorBuffer[WINDOW_WIDTH * w + i] = visuals->wallTexture[TILE_SIZE * yoffset + xoffset];
+		}
+		/* Sets a solid color to the floor */
 		for (int f = bottomWallPixel; f < WINDOW_HEIGHT; f++)
 			visuals->colorBuffer[(WINDOW_WIDTH * f) + i] = 0xFF4652FF;
 	}
