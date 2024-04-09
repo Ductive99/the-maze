@@ -302,7 +302,7 @@ void render3d(SDL_Visuals *visuals, Player *player)
 			int topWallDistance = w + wallHeight / 2 - WINDOW_HEIGHT / 2;
 			int yoffset = topWallDistance * ((float)TILE_SIZE / wallHeight);
 
-			Uint32 texColor = visuals->loadedTextures[tex][(TILE_SIZE * yoffset) + xoffset];
+			uint32_t texColor = visuals->loadedTextures[tex][(TILE_SIZE * yoffset) + xoffset];
 			visuals->colorBuffer[WINDOW_WIDTH * w + i] = texColor;
 		}
 		/* Sets a solid color to the floor */

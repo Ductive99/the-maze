@@ -77,9 +77,9 @@ typedef struct Player
 typedef struct SDL_Visuals
 {
 	SDL_Texture *texture;
-	Uint32 *colorBuffer;
-	Uint32 *wallTexture;
-	Uint32 *loadedTextures[TEXTURES];
+	uint32_t *colorBuffer;
+	uint32_t *wallTexture;
+	uint32_t *loadedTextures[TEXTURES];
 } SDL_Visuals;
 
 /**
@@ -125,7 +125,7 @@ void castRay(Player *player, float rayAngle, int Id);
 void render3d(SDL_Visuals *visuals, Player *player);
 
 void renderColorBuffer(SDL_Instance *instance, SDL_Visuals *visuals);
-void clearColorBuffer(SDL_Visuals *visuals, Uint32 color);
+void clearColorBuffer(SDL_Visuals *visuals, uint32_t color);
 
 
 /* Helper Functions*/

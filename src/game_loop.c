@@ -20,7 +20,7 @@ void setup(SDL_Instance *instance, SDL_Visuals *visuals, Player *player)
 	player->walkSpeed = 200;
 	player->rotSpeed = 75 * PI / 180;
 
-	visuals->colorBuffer = (Uint32*)malloc(sizeof(Uint32) * WINDOW_HEIGHT * WINDOW_WIDTH);
+	visuals->colorBuffer = (uint32_t*)malloc(sizeof(uint32_t) * WINDOW_HEIGHT * WINDOW_WIDTH);
 
 	visuals->texture = SDL_CreateTexture(
 		instance->renderer,
@@ -30,14 +30,14 @@ void setup(SDL_Instance *instance, SDL_Visuals *visuals, Player *player)
 		WINDOW_HEIGHT
 	);
 
-	visuals->loadedTextures[0] = (Uint32*) REDBRICK_TEXTURE;
-    visuals->loadedTextures[1] = (Uint32*) PURPLESTONE_TEXTURE;
-    visuals->loadedTextures[2] = (Uint32*) MOSSYSTONE_TEXTURE;
-    visuals->loadedTextures[3] = (Uint32*) GRAYSTONE_TEXTURE;
-    visuals->loadedTextures[4] = (Uint32*) COLORSTONE_TEXTURE;
-    visuals->loadedTextures[5] = (Uint32*) BLUESTONE_TEXTURE;
-    visuals->loadedTextures[6] = (Uint32*) WOOD_TEXTURE;
-    visuals->loadedTextures[7] = (Uint32*) EAGLE_TEXTURE;
+	visuals->loadedTextures[0] = (uint32_t*) REDBRICK_TEXTURE;
+    visuals->loadedTextures[1] = (uint32_t*) PURPLESTONE_TEXTURE;
+    visuals->loadedTextures[2] = (uint32_t*) MOSSYSTONE_TEXTURE;
+    visuals->loadedTextures[3] = (uint32_t*) GRAYSTONE_TEXTURE;
+    visuals->loadedTextures[4] = (uint32_t*) COLORSTONE_TEXTURE;
+    visuals->loadedTextures[5] = (uint32_t*) BLUESTONE_TEXTURE;
+    visuals->loadedTextures[6] = (uint32_t*) WOOD_TEXTURE;
+    visuals->loadedTextures[7] = (uint32_t*) EAGLE_TEXTURE;
 }
 
 /**
