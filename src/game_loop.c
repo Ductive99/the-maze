@@ -11,7 +11,7 @@
 void setup(SDL_Instance *instance, SDL_Visuals *visuals, Player *player)
 {
 	player->x = WINDOW_WIDTH / 2;
-	player->y = WINDOW_HEIGHT / 2;
+	player->y = WINDOW_HEIGHT / 2 - 3 * TILE_SIZE;
 	player->w = 5;
 	player->h = 5;
 	player->turnDirection = 0;
