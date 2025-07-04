@@ -1,16 +1,37 @@
-const TILE_SIZE = 64;
+let TILE_SIZE = 64;
 const ROWS = 11;
 const COLS = 15;
 
-const WINDOW_WIDTH = COLS * TILE_SIZE;
-const WINDOW_HEIGHT = ROWS * TILE_SIZE;
+let WINDOW_WIDTH = COLS * TILE_SIZE;
+let WINDOW_HEIGHT = ROWS * TILE_SIZE;
 
-const FOV_ANGLE = 70 * (Math.PI / 180);
+let FOV_ANGLE = 70 * (Math.PI / 180);
 
-const WALL_THICKNESS = 3;
-const NUM_RAYS = WINDOW_WIDTH / WALL_THICKNESS;
+let WALL_THICKNESS = 3;
+let NUM_RAYS = WINDOW_WIDTH / WALL_THICKNESS;
 
 const MINIMAP_FACTOR = 0.2;
+
+function updateFOV(degrees) {
+    FOV_ANGLE = degrees * (Math.PI / 180);
+}
+
+function updateTileSize(size) {
+    TILE_SIZE = size;
+    WINDOW_WIDTH = COLS * TILE_SIZE;
+    WINDOW_HEIGHT = ROWS * TILE_SIZE;
+    NUM_RAYS = WINDOW_WIDTH / WALL_THICKNESS;
+
+    resizeCanvas(WINDOW_WIDTH, WINDOW_HEIGHT);
+
+    player.x = WINDOW_WIDTH / 2;
+    player.y = WINDOW_HEIGHT / 2;
+}
+
+function updateWallThickness(thickness) {
+    WALL_THICKNESS = thickness;
+    NUM_RAYS = WINDOW_WIDTH / WALL_THICKNESS;
+}
 
 class Map {
     constructor() {
@@ -46,7 +67,7 @@ class Map {
     render() {
         for (var i = 0; i < ROWS; i++) {
             for (var j = 0; j < COLS; j++) {
-                var tileX = j * TILE_SIZE; 
+                var tileX = j * TILE_SIZE;
                 var tileY = i * TILE_SIZE;
                 var tileColor = this.grid[i][j] > 0 ? "#222" : "#fff";
                 stroke("#222");
@@ -296,13 +317,13 @@ function castRays() {
 function renderCeiling() {
     noStroke();
     fill('#73a4fa');
-    rect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT/2);
+    rect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT / 2);
 }
 
 function renderFloor() {
     noStroke();
     fill('#273d2d');
-    rect(0, WINDOW_HEIGHT/2, WINDOW_WIDTH, WINDOW_HEIGHT)
+    rect(0, WINDOW_HEIGHT / 2, WINDOW_WIDTH, WINDOW_HEIGHT)
 }
 
 function normalize(angle) {
