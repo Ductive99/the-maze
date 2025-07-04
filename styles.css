@@ -10,12 +10,13 @@ body {
     font-family: 'Inter', sans-serif;
     background:
         linear-gradient(135deg, #1e3a8a 0%, #3b82f6 25%, #1d4ed8 50%, #2563eb 75%, #1e40af 100%),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
-        linear-gradient(0deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(59, 130, 246, 0.3) 2px, transparent 2px),
-        linear-gradient(0deg, rgba(59, 130, 246, 0.3) 2px, transparent 2px),
-        linear-gradient(90deg, rgba(37, 99, 235, 0.2) 3px, transparent 3px),
-        linear-gradient(0deg, rgba(37, 99, 235, 0.2) 3px, transparent 3px);
+        /* Remove any background image references that don't exist */
+        linear-gradient(90deg, rgba(255, 150, 150, 0.15) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(255, 150, 150, 0.15) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(220, 70, 100, 0.25) 2px, transparent 2px),
+        linear-gradient(0deg, rgba(220, 70, 100, 0.25) 2px, transparent 2px),
+        linear-gradient(90deg, rgba(185, 50, 80, 0.2) 3px, transparent 3px),
+        linear-gradient(0deg, rgba(185, 50, 80, 0.2) 3px, transparent 3px);
     background-size:
         100% 100%,
         20px 20px,
