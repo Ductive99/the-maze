@@ -1,107 +1,161 @@
 <!doctype html>
-<html>
+<html lang="en">
 
 <head>
-    <title>The Maze</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Maze - Raycasting Demo</title>
     <script src="p5.js"></script>
     <link rel="stylesheet" href="styles.css" />
     <script src="maze.js"></script>
-    <style>
-        .github-link {
-            position: fixed;
-            bottom: 10px;
-            right: 10px;
-            z-index: 1000;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 14px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .controls {
-            position: fixed;
-            top: 10px;
-            left: 10px;
-            z-index: 1000;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            font-family: Arial, sans-serif;
-            font-size: 14px;
-        }
-
-        .control-group {
-            margin-bottom: 10px;
-        }
-
-        .control-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        .control-group input[type="range"] {
-            width: 200px;
-        }
-
-        .control-group span {
-            margin-left: 10px;
-            color: #666;
-        }
-
-        .reset-btn {
-            background: #007acc;
-            color: white;
-            border: none;
-            padding: 5px 15px;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        .reset-btn:hover {
-            background: #005999;
-        }
-    </style>
-    <a class="github-link" href="https://github.com/ductive99/the-maze" target="_blank" rel="noopener">github repo</a>
 </head>
 
 <body>
-    <h1>The Maze</h1>
+    <div class="loading" id="loading">Loading...</div>
 
-    <div class="controls">
-        <div class="control-group">
-            <label for="fovSlider">FOV Angle:</label>
-            <input type="range" id="fovSlider" min="30" max="120" value="70">
-            <span id="fovValue">70°</span>
+    <h1>🏰 The Maze</h1>
+
+    <div class="settings-panel" id="settingsPanel">
+        <div class="settings-header" id="settingsHeader">
+            <div class="settings-title">
+                ⚙️ Settings
+            </div>
+            <button class="settings-toggle" id="settingsToggle">▼</button>
         </div>
 
-        <div class="control-group">
-            <label for="tileSizeSlider">Tile Size:</label>
-            <input type="range" id="tileSizeSlider" min="32" max="128" value="64">
-            <span id="tileSizeValue">64px</span>
-        </div>
+        <div class="settings-content" id="settingsContent">
+            <div class="control-group">
+                <label for="fovSlider">Field of View</label>
+                <div class="slider-container">
+                    <input type="range" id="fovSlider" min="30" max="120" value="70">
+                </div>
+                <div class="value-display">
+                    <span class="control-description">Viewing angle</span>
+                    <span class="value" id="fovValue">70°</span>
+                </div>
+            </div>
 
-        <div class="control-group">
-            <label for="wallThicknessSlider">Ray Density</label>
-            <input type="range" id="wallThicknessSlider" min="1" max="8" value="3">
-            <span id="wallThicknessValue">3px</span>
-        </div>
+            <div class="control-group">
+                <label for="tileSizeSlider">World Scale</label>
+                <div class="slider-container">
+                    <input type="range" id="tileSizeSlider" min="32" max="128" value="64">
+                </div>
+                <div class="value-display">
+                    <span class="control-description">Maze size</span>
+                    <span class="value" id="tileSizeValue">64px</span>
+                </div>
+            </div>
 
-        <button class="reset-btn" onclick="resetToDefaults()">Reset to Defaults</button>
+            <div class="control-group">
+                <label for="wallThicknessSlider">Ray Density</label>
+                <div class="slider-container">
+                    <input type="range" id="wallThicknessSlider" min="1" max="8" value="3">
+                </div>
+                <div class="value-display">
+                    <span class="control-description">Rendering quality</span>
+                    <span class="value" id="wallThicknessValue">3px</span>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label for="minimapFactorSlider">Minimap Size</label>
+                <div class="slider-container">
+                    <input type="range" id="minimapFactorSlider" min="0.1" max="0.5" step="0.05" value="0.2">
+                </div>
+                <div class="value-display">
+                    <span class="control-description">Minimap scale</span>
+                    <span class="value" id="minimapFactorValue">0.2x</span>
+                </div>
+            </div>
+
+            <button class="reset-btn" onclick="resetToDefaults()">🔄 Reset to Defaults</button>
+        </div>
     </div>
 
+    <main>
+        <div class="game-container" id="gameContainer">
+            <!-- P5.js canvas will be inserted here -->
+        </div>
+    </main>
+
+    <a class="github-link left" href="https://github.com/ductive99/the-maze" target="_blank" rel="noopener">
+        View on GitHub
+    </a>
+    <a class="my-link" href="https://github.com/ductive99" target="_blank" rel="noopener">
+        Made By El Houssain Souhail
+    </a>
+
     <script>
-        // Initialize sliders and event listeners
+        window.addEventListener('load', function () {
+            document.getElementById('loading').style.display = 'none';
+        });
+
+        let isDragging = false;
+        let currentX;
+        let currentY;
+        let initialX;
+        let initialY;
+        let xOffset = 0;
+        let yOffset = 0;
+
+        const settingsPanel = document.getElementById('settingsPanel');
+        const settingsHeader = document.getElementById('settingsHeader');
+        const settingsToggle = document.getElementById('settingsToggle');
+        const settingsContent = document.getElementById('settingsContent');
+
+        settingsToggle.addEventListener('click', function () {
+            settingsContent.classList.toggle('collapsed');
+            settingsPanel.classList.toggle('collapsed');
+            settingsToggle.textContent = settingsContent.classList.contains('collapsed') ? '▼' : '▲';
+        });
+
+        settingsHeader.addEventListener('mousedown', dragStart);
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('mouseup', dragEnd);
+
+        function dragStart(e) {
+            initialX = e.clientX - xOffset;
+            initialY = e.clientY - yOffset;
+
+            if (e.target === settingsHeader || settingsHeader.contains(e.target)) {
+                isDragging = true;
+                settingsPanel.classList.add('dragging');
+            }
+        }
+
+        function drag(e) {
+            if (isDragging) {
+                e.preventDefault();
+                currentX = e.clientX - initialX;
+                currentY = e.clientY - initialY;
+
+                xOffset = currentX;
+                yOffset = currentY;
+
+                setTranslate(currentX, currentY, settingsPanel);
+            }
+        }
+
+        function dragEnd(e) {
+            initialX = currentX;
+            initialY = currentY;
+            isDragging = false;
+            settingsPanel.classList.remove('dragging');
+        }
+
+        function setTranslate(xPos, yPos, el) {
+            el.style.transform = `translate3d(${xPos}px, ${yPos}px, 0)`;
+        }
+
         const fovSlider = document.getElementById('fovSlider');
         const tileSizeSlider = document.getElementById('tileSizeSlider');
         const wallThicknessSlider = document.getElementById('wallThicknessSlider');
+        const minimapFactorSlider = document.getElementById('minimapFactorSlider');
 
         const fovValue = document.getElementById('fovValue');
         const tileSizeValue = document.getElementById('tileSizeValue');
         const wallThicknessValue = document.getElementById('wallThicknessValue');
+        const minimapFactorValue = document.getElementById('minimapFactorValue');
 
         fovSlider.addEventListener('input', function () {
             const value = parseInt(this.value);
@@ -121,19 +175,39 @@
             updateWallThickness(value);
         });
 
+        minimapFactorSlider.addEventListener('input', function () {
+            const value = parseFloat(this.value);
+            minimapFactorValue.textContent = value + 'x';
+            updateMinimapFactor(value);
+        });
+
         function resetToDefaults() {
             fovSlider.value = 70;
             tileSizeSlider.value = 64;
             wallThicknessSlider.value = 3;
+            minimapFactorSlider.value = 0.2;
 
             fovValue.textContent = '70°';
             tileSizeValue.textContent = '64px';
             wallThicknessValue.textContent = '3px';
+            minimapFactorValue.textContent = '0.2x';
 
             updateFOV(70);
             updateTileSize(64);
             updateWallThickness(3);
+            updateMinimapFactor(0.2);
         }
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'r' || e.key === 'R') {
+                resetToDefaults();
+            }
+            if (e.key === 's' || e.key === 'S') {
+                settingsContent.classList.toggle('collapsed');
+                settingsPanel.classList.toggle('collapsed');
+                settingsToggle.textContent = settingsContent.classList.contains('collapsed') ? '▼' : '▲';
+            }
+        });
     </script>
 </body>
 

@@ -1,42 +1,475 @@
-html, body {
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+* {
     margin: 0;
     padding: 0;
-    background: #536e9c;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background:
+        linear-gradient(135deg, #1e3a8a 0%, #3b82f6 25%, #1d4ed8 50%, #2563eb 75%, #1e40af 100%),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59, 130, 246, 0.3) 2px, transparent 2px),
+        linear-gradient(0deg, rgba(59, 130, 246, 0.3) 2px, transparent 2px),
+        linear-gradient(90deg, rgba(37, 99, 235, 0.2) 3px, transparent 3px),
+        linear-gradient(0deg, rgba(37, 99, 235, 0.2) 3px, transparent 3px);
+    background-size:
+        100% 100%,
+        20px 20px,
+        20px 20px,
+        60px 60px,
+        60px 60px,
+        120px 120px,
+        120px 120px;
+    background-position:
+        0 0,
+        0 0,
+        0 0,
+        10px 10px,
+        10px 10px,
+        30px 30px,
+        30px 30px;
+    min-height: 100vh;
+    color: #333;
+    overflow: hidden;
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
     height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    background-image:
+        radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.1) 2px, transparent 2px),
+        radial-gradient(circle at 75% 75%, rgba(59, 130, 246, 0.2) 1px, transparent 1px),
+        radial-gradient(circle at 50% 50%, rgba(37, 99, 235, 0.1) 1px, transparent 1px);
+    background-size: 80px 80px, 120px 120px, 200px 200px;
+    animation: gridFloat 20s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 1;
 }
 
-canvas {
-    display: block;
-    margin: 0 auto;
-    border-style: solid;
-    border-width: 8px;
-    border-color: #fff;
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        linear-gradient(45deg, transparent 48%, rgba(255, 255, 255, 0.05) 49%, rgba(255, 255, 255, 0.05) 51%, transparent 52%),
+        linear-gradient(-45deg, transparent 48%, rgba(59, 130, 246, 0.1) 49%, rgba(59, 130, 246, 0.1) 51%, transparent 52%);
+    background-size: 40px 40px, 80px 80px;
+    animation: lineFloat 25s linear infinite;
+    pointer-events: none;
+    z-index: 2;
 }
 
-@import url('https://fonts.googleapis.com/css?family=Montserrat');
+@keyframes gridFloat {
+
+    0%,
+    100% {
+        transform: translateY(0px) translateX(0px);
+        opacity: 1;
+    }
+
+    33% {
+        transform: translateY(-10px) translateX(5px);
+        opacity: 0.8;
+    }
+
+    66% {
+        transform: translateY(5px) translateX(-3px);
+        opacity: 0.9;
+    }
+}
+
+@keyframes lineFloat {
+    0% {
+        transform: translateX(-40px);
+    }
+
+    100% {
+        transform: translateX(40px);
+    }
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+
+    33% {
+        transform: translateY(-20px) rotate(1deg);
+    }
+
+    66% {
+        transform: translateY(10px) rotate(-1deg);
+    }
+}
 
 h1 {
-    font-size: 48px;
-    color: #fff;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    animation: glow 2s infinite alternate;
-    font-family: Montserrat, sans-serif;
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 2.5rem;
+    font-weight: 600;
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    margin: 0;
 }
 
-@keyframes glow {
-    0% {
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+.github-link {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    background: linear-gradient(135deg, #24292e, #1b1f23);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.github-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(135deg, #2c3237, #24292e);
+}
+
+.github-link::before {
+    content: "⚡";
+    font-size: 16px;
+}
+
+.my-link {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 1000;
+    background: linear-gradient(135deg, #2c3237, #24292e);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.my-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(135deg, #8d0202, #491717);
+}
+
+.my-link::before {
+    content: "👨‍💻";
+    font-size: 16px;
+}
+
+.settings-panel {
+    position: fixed;
+    top: 80px;
+    left: 20px;
+    z-index: 1000;
+    background: rgba(15, 15, 15, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    min-width: 280px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: move;
+    user-select: none;
+}
+
+.settings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 25px 15px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    cursor: move;
+    transition: border-bottom 0.3s ease;
+}
+
+.settings-panel.collapsed .settings-header {
+    border-bottom: 2px solid transparent;
+}
+
+.settings-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.settings-toggle {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.settings-toggle:hover {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    background: linear-gradient(135deg, #5a67d8, #6b46c1);
+}
+
+.settings-toggle:active {
+    transform: scale(0.95);
+}
+
+.settings-content {
+    max-height: 400px;
+    overflow-y: auto;
+    transition: all 0.3s ease;
+    padding: 25px;
+}
+
+.settings-content.collapsed {
+    max-height: 0;
+    padding: 0 25px;
+    overflow: hidden;
+}
+
+.control-group {
+    margin-bottom: 20px;
+}
+
+.control-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #e0e0e0;
+    font-size: 14px;
+}
+
+.slider-container {
+    position: relative;
+    margin-bottom: 5px;
+}
+
+.control-group input[type="range"] {
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: #333;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+}
+
+.control-group input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    transition: all 0.2s ease;
+}
+
+.control-group input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.control-group input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.value-display {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.control-group .value {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+    min-width: 50px;
+    text-align: center;
+}
+
+.control-description {
+    font-size: 11px;
+    color: #aaa;
+    font-style: italic;
+}
+
+.reset-btn {
+    background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    margin-top: 20px;
+    width: 100%;
+    font-weight: 500;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+}
+
+.reset-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+    background: linear-gradient(135deg, #ff5252, #d63031);
+}
+
+.reset-btn:active {
+    transform: translateY(0);
+}
+
+main {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    pointer-events: none;
+}
+
+.game-container {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.1);
+    pointer-events: all;
+    position: relative;
+}
+
+.game-container canvas {
+    display: block !important;
+    border: none !important;
+    outline: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.loading {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    color: white;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.loading::after {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s ease-in-out infinite;
+    margin-left: 10px;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
     }
-    100% {
-        text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.8);
+}
+
+.settings-panel.dragging {
+    transform: rotate(2deg);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+    .settings-panel {
+        left: 10px;
+        right: 10px;
+        top: 70px;
+        min-width: auto;
+    }
+
+    .settings-content {
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 2rem;
+        top: 15px;
+    }
+
+    .github-link {
+        bottom: 15px;
+        right: 15px;
+        padding: 10px 16px;
+        font-size: 13px;
+    }
+
+    .my-link {
+        bottom: 15px;
+        left: 15px;
+        padding: 10px 16px;
+        font-size: 13px;
+    }
+
+    main {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
 }

@@ -10,7 +10,7 @@ let FOV_ANGLE = 70 * (Math.PI / 180);
 let WALL_THICKNESS = 3;
 let NUM_RAYS = WINDOW_WIDTH / WALL_THICKNESS;
 
-const MINIMAP_FACTOR = 0.2;
+let MINIMAP_FACTOR = 0.2;
 
 function updateFOV(degrees) {
     FOV_ANGLE = degrees * (Math.PI / 180);
@@ -31,6 +31,10 @@ function updateTileSize(size) {
 function updateWallThickness(thickness) {
     WALL_THICKNESS = thickness;
     NUM_RAYS = WINDOW_WIDTH / WALL_THICKNESS;
+}
+
+function updateMinimapFactor(factor) {
+    MINIMAP_FACTOR = factor;
 }
 
 class Map {
@@ -339,7 +343,9 @@ function distanceBtwn(x1, y1, x2, y2) {
 }
 
 function setup() {
-    createCanvas(WINDOW_WIDTH, WINDOW_HEIGHT);
+    // Create canvas and parent it to the game container
+    let canvas = createCanvas(WINDOW_WIDTH, WINDOW_HEIGHT);
+    canvas.parent('gameContainer');
 }
 
 function update() {
